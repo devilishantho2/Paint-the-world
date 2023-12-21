@@ -1,10 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://b7ktc7i4wiwsp"]
+[gd_scene load_steps=29 format=3 uid="uid://dxpw3so4x5wxh"]
 
-[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_rovys"]
-[ext_resource type="Texture2D" uid="uid://ccm3fftks0xf6" path="res://Sprites/player.png" id="2_rfhh7"]
+[ext_resource type="Script" path="res://Scripts/Joueur2.gd" id="1_k4qtr"]
+[ext_resource type="Texture2D" uid="uid://ccm3fftks0xf6" path="res://Sprites/player.png" id="2_tcw7p"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_v7iyp"]
-diffuse_texture = ExtResource("2_rfhh7")
+diffuse_texture = ExtResource("2_tcw7p")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wwdcl"]
 size = Vector2(30, 50)
@@ -256,7 +256,7 @@ node_connections = [&"air_state", 0, &"move_state", &"air_state", 1, &"jump_stat
 size = Vector2(18, 50)
 
 [node name="Joueur" type="CharacterBody2D"]
-script = ExtResource("1_rovys")
+script = ExtResource("1_k4qtr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("CanvasTexture_v7iyp")
@@ -277,9 +277,9 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_7m8k2")
 anim_player = NodePath("../AnimationPlayer")
-parameters/air_state/current_state = ""
+parameters/air_state/current_state = "ground"
 parameters/air_state/transition_request = ""
-parameters/air_state/current_index = -1
+parameters/air_state/current_index = 0
 parameters/climb_state/current_state = "dont_climb"
 parameters/climb_state/transition_request = ""
 parameters/climb_state/current_index = 0
@@ -318,8 +318,14 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LadderChecker"]
 shape = SubResource("RectangleShape2D_xj2ax")
 
+[node name="JumpTime" type="Timer" parent="."]
+one_shot = true
+
+[node name="FallTime" type="Timer" parent="."]
+
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="DashWaitTimer" to="." method="_on_dash_wait_timer_timeout"]
 [connection signal="body_entered" from="LadderChecker" to="." method="_on_ladder_checker_body_entered"]
 [connection signal="body_exited" from="LadderChecker" to="." method="_on_ladder_checker_body_exited"]
+[connection signal="timeout" from="JumpTime" to="." method="_on_jump_time_timeout"]

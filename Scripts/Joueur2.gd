@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var move_speed = 250.0
 
 @export var jump_height = 150
-@export var jump_time_to_peak = 0.6
+@export var jump_time_to_peak = 0.7
 @export var jump_time_to_descent = 0.3
 @export var coyote_time = 0.2
 
@@ -21,10 +21,7 @@ var slide_time = 0.2
 
 func _physics_process(delta):
 
-	if velocity.y < 5000:
-		velocity.y += get_gravity() * delta*(1-int(is_dashing))
-	else : 
-		velocity.y = 5000*(1-int(is_dashing))
+	velocity.y += get_gravity() * delta*(1-int(is_dashing))
 	velocity.x = get_input_velocity() * move_speed
 	$Label.set_text(str(int(velocity.x))+" "+str(int(velocity.y)))
 	
@@ -44,7 +41,7 @@ func jump(delta):
 		$CoyoteTimer.start(coyote_time)
 	
 	if Input.is_action_pressed("up") and on_ladder:
-		velocity.y = -300
+		velocity.y = -200
 		$AnimationTree.set("parameters/climb_state/transition_request", "climb")
 	if Input.is_action_just_released("up"):
 		$AnimationTree.set("parameters/climb_state/transition_request", "dont_climb")
